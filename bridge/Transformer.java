@@ -114,7 +114,9 @@ public class Transformer
     }
 
     private String extractErrorMessage() {
-        return new String(this.errorLogStream.toByteArray(), StandardCharsets.UTF_8);
+        String message = new String(this.errorLogStream.toByteArray(), StandardCharsets.UTF_8);
+        this.errorLogStream.reset();
+        return message;
     }
 
     private class VirtualFile
