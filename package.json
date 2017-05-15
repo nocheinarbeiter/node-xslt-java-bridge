@@ -2,7 +2,7 @@
   "name": "node-xslt-java-bridge",
   "description": "Node.js module exposes basic XSLT API through Java bridge to Saxon Processor",
   "keywords": ["xslt", "saxon"],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
