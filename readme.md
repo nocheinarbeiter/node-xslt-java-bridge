@@ -29,6 +29,12 @@ console.log(results[0].contents);
 
 Also see `examples/` in the source repository.
 
+### Troubleshooting: Popup dialog to install legacy JAVA SE 6 on macOS
+It could be because the Oracle JDK does not advertise itself as available for JNI.
+Please see [this issue](https://github.com/joeferner/node-java/issues/90#issuecomment-45613235)
+for more details and manual workarounds.
+
+
 ## API
 
 Please refer to `index.d.ts` file.
