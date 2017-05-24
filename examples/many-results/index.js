@@ -2,7 +2,7 @@ var Transformer = require('../../').XsltTransformer;
 var transformer = new Transformer('results.xsl');
 
 var results = transformer.transform({
-    base: '/base',
+    base: '/base path',
     path: 'some-path/main.xml',
     contents: '<main/>'
 });

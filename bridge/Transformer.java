@@ -5,7 +5,9 @@ import net.sf.saxon.lib.OutputURIResolver;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.xml.transform.Result;
 import javax.xml.transform.TransformerException;
@@ -94,7 +96,7 @@ public class Transformer
         // BaseOutputURI used for resolving relative URIs in the href attribute of the xsl:result-document
         this.transformer.setBaseOutputURI(sourceBase);
 
-        this.documentBuilder.setBaseURI(new URI("file:" + sourcePath));
+        this.documentBuilder.setBaseURI(Paths.get(sourcePath).toUri());
 
         try
         {
@@ -147,8 +149,8 @@ public class Transformer
 
     private class OutputResolver implements OutputURIResolver
     {
-        String base;
-        String path;
+        URI base;
+        URI path;
 
         public OutputURIResolver newInstance()
         {
@@ -157,8 +159,14 @@ public class Transformer
 
         public Result resolve(String href, String base) throws TransformerException
         {
-            this.base = base;
-            this.path = href;
+            try {
+                this.base = new URI(base);
+                this.path = new URI(href);
+            }
+            catch (URISyntaxException exception)
+            {
+                throw new TransformerException(exception);
+            }
             return new StreamResult(new StringWriter());
         }
 
@@ -166,7 +174,7 @@ public class Transformer
         {
             String resultContents = ((StreamResult) result).getWriter().toString();
             // can not get serialization method for output produced using xsl:result-document
-            results.add(new VirtualFile(this.base, this.path, resultContents, null));
+            results.add(new VirtualFile(this.base.getPath(), this.path.getPath(), resultContents, null));
         }
     }
 
